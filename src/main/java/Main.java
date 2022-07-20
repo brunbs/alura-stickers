@@ -25,8 +25,7 @@ public class Main {
         // exibir e manipular os dados
 
         moviesList.forEach(movie -> {
-            Movie movie2 = new Movie(movie);
-            movie2.printMovie();
+            new Movie(movie).printMovie();
         });
 
 
