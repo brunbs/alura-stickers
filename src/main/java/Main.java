@@ -18,11 +18,9 @@ public class Main {
         HttpRequest request = HttpRequest.newBuilder(address).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String body = response.body();
-        //System.out.println(body);
 
         // extrair só os dados que interessam(título, poster, classificação)
-        JsonParser parser = new JsonParser();
-        List<Map<String, String>> moviesList = parser.parse(body);
+        List<Map<String, String>> moviesList = JsonParser.parse(body);
 
         // exibir e manipular os dados
 
@@ -32,6 +30,7 @@ public class Main {
             System.out.println(movie.get("imDbRating"));
             System.out.println();
         });
+
 
     }
 

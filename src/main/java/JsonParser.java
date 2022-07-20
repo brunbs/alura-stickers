@@ -1,3 +1,7 @@
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,36 +11,16 @@ import java.util.regex.Pattern;
 
 public class JsonParser {
 
-    private static final Pattern REGEX_ITEMS = Pattern.compile(".*\\[(.+)\\].*");
-    private static final Pattern REGEX_ATTRIBUTES_JSON = Pattern.compile("\"(.+?)\":\"(.*?)\"");
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
-    public List<Map<String, String>> parse(String json) {
+    public static List<Map<String, String>> parse(String json) throws Exception{
+        JsonNode jsonNode = objectMapper.readTree(json);
+        List<Map<String, String>> moviesList = getMoviesList(jsonNode);
+        return moviesList;
+    }
 
-        Matcher matcher = REGEX_ITEMS.matcher(json);
-        if (!matcher.find()) {
-
-            throw new IllegalArgumentException("No itens");
-        }
-
-        String[] items = matcher.group(1).split("\\},\\{");
-
-        List<Map<String, String>> dados = new ArrayList<>();
-
-        for (String item : items) {
-
-            Map<String, String> attributesItem = new HashMap<>();
-
-            Matcher matcherAttributesJson = REGEX_ATTRIBUTES_JSON.matcher(item);
-            while (matcherAttributesJson.find()) {
-                String attribute = matcherAttributesJson.group(1);
-                String value = matcherAttributesJson.group(2);
-                attributesItem.put(attribute, value);
-            }
-
-            dados.add(attributesItem);
-        }
-
-        return dados;
+    private static List<Map<String, String>> getMoviesList(JsonNode json) throws Exception{
+        return objectMapper.readValue(json.get("items").toString(), new TypeReference<List<Map<String, String>>>() {});
     }
 
 }
