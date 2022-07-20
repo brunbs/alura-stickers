@@ -25,10 +25,8 @@ public class Main {
         // exibir e manipular os dados
 
         moviesList.forEach(movie -> {
-            System.out.println(movie.get("title"));
-            System.out.println(movie.get("image"));
-            System.out.println(movie.get("imDbRating"));
-            System.out.println();
+            Movie movie2 = new Movie(movie);
+            movie2.printMovie();
         });
 
 
