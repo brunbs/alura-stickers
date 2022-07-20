@@ -13,11 +13,7 @@ public class Main {
         // fazer uma conexão HTTP e buscar os top 250 filmes
 
         String url = "https://api.mocki.io/v2/549a5d8b";
-        HttpClient client = HttpClient.newHttpClient();
-        URI address = URI.create(url);
-        HttpRequest request = HttpRequest.newBuilder(address).GET().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        String body = response.body();
+        String body = getResponseBody(url);
 
         // extrair só os dados que interessam(título, poster, classificação)
         List<Map<String, String>> moviesList = JsonParser.parse(body);
@@ -29,6 +25,15 @@ public class Main {
         });
 
 
+    }
+
+    private static String getResponseBody(String url) throws Exception{
+        HttpClient client = HttpClient.newHttpClient();
+        URI address = URI.create(url);
+        HttpRequest request = HttpRequest.newBuilder(address).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        return response.body();
     }
 
 }
