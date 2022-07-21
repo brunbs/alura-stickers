@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -21,7 +23,17 @@ public class Main {
         // exibir e manipular os dados
 
         moviesList.forEach(movie -> {
-            new Movie(movie).printMovie();
+            Movie movieObject = new Movie(movie);
+            movieObject.printMovie();
+
+            try {
+                InputStream inputStream = new URL(movieObject.getImage()).openStream();
+                String fileName = movieObject.getTitle() + ".png";
+                StickerFactory.generate(inputStream, fileName);
+            } catch (Exception e) {
+                System.out.println("Error while creating the Sticker");
+            }
+
         });
 
 
