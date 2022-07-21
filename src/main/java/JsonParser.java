@@ -15,8 +15,11 @@ public class JsonParser {
 
     public static List<Map<String, String>> parse(String json) throws Exception{
         JsonNode jsonNode = objectMapper.readTree(json);
-        List<Map<String, String>> moviesList = getMoviesList(jsonNode);
-        return moviesList;
+        if (jsonNode.toString().contains("items")) {
+            List<Map<String, String>> moviesList = getMoviesList(jsonNode);
+            return moviesList;
+        }
+        return objectMapper.readValue(json, new TypeReference<List<Map<String, String>>>() {});
     }
 
     private static List<Map<String, String>> getMoviesList(JsonNode json) throws Exception{

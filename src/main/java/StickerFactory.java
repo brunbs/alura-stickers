@@ -34,7 +34,7 @@ public class StickerFactory {
 
 
         // escrever uma frase na nova imagem
-        graphics.drawString("TOPZERA", 0, newHeight - 100);
+        graphics.drawString("TOPZERA", 100, newHeight - 100);
 
 
         // escrever a nova imagem em um arquivo
